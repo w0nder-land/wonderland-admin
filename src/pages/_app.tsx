@@ -5,6 +5,7 @@ import { CssBaseline } from '@mui/material';
 import localFont from '@next/font/local';
 import { ColorModeContextProvider } from 'context/ColorModeContext';
 import type { AppProps } from 'next/app';
+import { useRouter } from 'next/router';
 
 export const font = localFont({
   src: '../styles/font/SUIT-Variable.woff2',
@@ -14,10 +15,12 @@ export const font = localFont({
 export type ModeType = 'light' | 'dark';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { asPath } = useRouter();
+
   return (
     <ColorModeContextProvider>
       <CssBaseline />
-      <GNB />
+      {asPath !== '/login' && <GNB />}
       <main className={font.className}>
         <Component {...pageProps} />
       </main>
