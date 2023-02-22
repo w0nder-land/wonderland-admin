@@ -1,3 +1,4 @@
+import DefaultInput from '@common/Input/Default';
 import PrimaryLogo from '@common/Logo/Primary';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
@@ -8,20 +9,34 @@ import {
   FormControlLabel,
   Grid,
   Paper,
-  TextField,
   Typography,
 } from '@mui/material';
+import { useForm } from 'react-hook-form';
+
+interface IILoginForm {
+  email: string;
+  password: string;
+}
 
 const Login = () => {
-  const handleSubmit = () => {};
+  const { control, handleSubmit } = useForm<IILoginForm>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = (data: IILoginForm) => {
+    console.log(data);
+  };
 
   return (
-    <Grid container component="main" sx={{ height: '100vh' }}>
+    <Grid container sx={{ height: '100vh' }}>
       <Grid
         item
         xs={false}
         sm={4}
-        md={7}
+        md={6}
         sx={{
           backgroundImage: 'url(/assets/images/bg_login.png)',
           backgroundRepeat: 'no-repeat',
@@ -76,45 +91,53 @@ const Login = () => {
           </Typography>
         </Box>
       </Grid>
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6} square>
         <Box
           display="flex"
           alignItems="center"
           flexDirection="column"
-          my={35}
+          my={20}
           mx={4}
         >
           <Avatar sx={{ m: 1, bgcolor: 'main' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5" mt={1}>
+          <Typography component="h2" variant="h5" mt={1}>
             로그인
           </Typography>
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             sx={{ mt: 1 }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
+            <DefaultInput
               name="email"
-              autoComplete="email"
-              autoFocus
+              control={control}
+              textFieldProps={{
+                id: 'email',
+                margin: 'normal',
+                required: true,
+                fullWidth: true,
+                autoFocus: true,
+                label: 'Email',
+                autoComplete: 'email',
+                type: 'email',
+              }}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
+
+            <DefaultInput
               name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
+              control={control}
+              textFieldProps={{
+                id: 'password',
+                margin: 'normal',
+                required: true,
+                fullWidth: true,
+                label: 'Password',
+                type: 'password',
+                autoComplete: 'current-password',
+              }}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
