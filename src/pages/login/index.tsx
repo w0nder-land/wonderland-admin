@@ -36,7 +36,7 @@ const Login = () => {
         item
         xs={false}
         sm={4}
-        md={6}
+        md={8}
         sx={{
           backgroundImage: 'url(/assets/images/bg_login.png)',
           backgroundRepeat: 'no-repeat',
@@ -91,7 +91,7 @@ const Login = () => {
           </Typography>
         </Box>
       </Grid>
-      <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6} square>
+      <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
         <Box
           display="flex"
           alignItems="center"

@@ -2,8 +2,7 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import React, { useMemo, useState } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from 'styles/theme';
-
-export type ModeType = 'light' | 'dark';
+import { ModeType } from 'types/common';
 
 interface IColorModeContext {
   toggleColorMode: () => void;

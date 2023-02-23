@@ -1,12 +1,43 @@
-import type { NextPage } from 'next';
-import styled from 'styled-components';
+import { gql, useQuery } from '@apollo/client';
+import client from 'lib/apollo-client';
+import type { GetServerSidePropsContext, NextPage } from 'next';
+import { useEffect } from 'react';
 
-const Container = styled.div`
-  padding: 10px;
+// export const getServerSideProps = async () => {
+//   const { data } = await client.query({
+//     query: gql`
+//       query {
+//         getUser(userId: 7) {
+//           id
+//           birthday
+//         }
+//       }
+//     `,
+//   });
+
+//   return {
+//     props: {
+//       data,
+//     },
+//   };
+// };
+
+const MEMBER_DETAIL = gql`
+  query getUser($userId: String!) {
+    id
+  }
 `;
 
 const Home: NextPage = () => {
-  return <Container>안녕하세요 원더랜드 어드민입니다</Container>;
+  const { data } = useQuery(MEMBER_DETAIL, {
+    variables: {
+      userId: 7,
+    },
+  });
+
+  console.log(data);
+
+  return <>fddd</>;
 };
 
 export default Home;

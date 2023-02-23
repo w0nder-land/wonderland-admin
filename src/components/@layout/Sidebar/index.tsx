@@ -1,82 +1,29 @@
+import GNB from '@layout/GNB';
 import { Copyright } from '@mui/icons-material';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import MenuIcon from '@mui/icons-material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import {
-  Badge,
   Box,
   Container,
   Divider,
   Grid,
-  IconButton,
   List,
   Paper,
   Toolbar,
-  Typography,
 } from '@mui/material';
-import { useState } from 'react';
 
 import { mainListItems, secondaryListItems } from './ListItem';
 import * as Styled from './Sidebar.styled';
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
-
   return (
     <Box sx={{ display: 'flex' }}>
-      <Styled.AppBar position="absolute" open={open}>
-        <Toolbar
-          sx={{
-            pr: '24px', // keep right padding when drawer closed
-          }}
+      <GNB />
+      <Styled.Drawer variant="permanent">
+        <List
+          sx={{ width: '350px', bgcolor: 'background.paper' }}
+          component="nav"
+          aria-labelledby="nested-list-subheader"
         >
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={toggleDrawer}
-            sx={{
-              marginRight: '36px',
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            sx={{ flexGrow: 1 }}
-          >
-            Dashboard
-          </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </Styled.AppBar>
-      <Styled.Drawer variant="permanent" open={open}>
-        <Toolbar
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            px: [1],
-          }}
-        >
-          <IconButton onClick={toggleDrawer}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </Toolbar>
-        <Divider />
-        <List component="nav">
-          {mainListItems}
+          {mainListItems()}
           <Divider sx={{ my: 1 }} />
           {secondaryListItems}
         </List>
