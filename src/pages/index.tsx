@@ -1,8 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
-import client from 'lib/apollo-client';
-import type { GetServerSidePropsContext, NextPage } from 'next';
-import { useEffect } from 'react';
-
+import type { NextPage } from 'next';
 // export const getServerSideProps = async () => {
 //   const { data } = await client.query({
 //     query: gql`
@@ -22,22 +19,52 @@ import { useEffect } from 'react';
 //   };
 // };
 
-const MEMBER_DETAIL = gql`
-  query getUser($userId: String!) {
-    id
+// const MEMBER_DETAIL = gql`
+//   query GetUser {
+//     getUser(userId: "7") {
+//       id
+//       socialType
+//       providerId
+//       username
+//       password
+//       nickname
+//       email
+//       sex
+//       birthday
+//       profileImage
+//       lastLogin
+//       active
+//     }
+//   }
+// `;
+
+const STAR_WARS_QUERY = gql`
+  query Query {
+    allFilms {
+      films {
+        title
+        director
+        releaseDate
+        speciesConnection {
+          species {
+            name
+            classification
+            homeworld {
+              name
+            }
+          }
+        }
+      }
+    }
   }
 `;
 
 const Home: NextPage = () => {
-  const { data } = useQuery(MEMBER_DETAIL, {
-    variables: {
-      userId: 7,
-    },
-  });
+  const { loading, data } = useQuery(STAR_WARS_QUERY);
 
-  console.log(data);
+  console.log(loading, 'data', data);
 
-  return <>fddd</>;
+  return <>ㅇㅇㅇㅇ</>;
 };
 
 export default Home;

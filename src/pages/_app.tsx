@@ -6,8 +6,9 @@ import { CssBaseline } from '@mui/material';
 import { StyledEngineProvider } from '@mui/styled-engine-sc';
 import localFont from '@next/font/local';
 import { ColorModeContextProvider } from 'context/ColorModeContext';
-import client from 'lib/apollo-client';
+import { useApollo } from 'lib/apollo-client';
 import type { AppProps } from 'next/app';
+import { useRouter } from 'next/router';
 
 export const font = localFont({
   src: '../styles/font/SUIT-Variable.woff2',
@@ -15,12 +16,15 @@ export const font = localFont({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const apolloClient = useApollo(pageProps.initialApolloState);
+  const { asPath } = useRouter();
+
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <StyledEngineProvider injectFirst>
         <ColorModeContextProvider>
           <CssBaseline />
-          <Sidebar />
+          {asPath !== '/login' && <Sidebar />}
           <main className={font.className}>
             <Component {...pageProps} />
           </main>

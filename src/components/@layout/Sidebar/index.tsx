@@ -15,7 +15,7 @@ import * as Styled from './Sidebar.styled';
 
 const Sidebar = () => {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box display="flex">
       <GNB />
       <Styled.Drawer variant="permanent">
         <List
