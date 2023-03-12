@@ -15,7 +15,7 @@ const Sidebar = ({ children }: ISidebar) => {
       <GNB />
       <Styled.Drawer variant="permanent">
         <MuiList
-          sx={{ width: '350px', bgcolor: 'background.paper' }}
+          sx={{ width: '300px', bgcolor: 'background.paper' }}
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
@@ -37,7 +37,9 @@ const Sidebar = ({ children }: ISidebar) => {
         }}
       >
         <Toolbar />
-        <Box m={4}>{children}</Box>
+        <Box m={4} mr={11}>
+          {children}
+        </Box>
         {/* <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Grid container spacing={3}>

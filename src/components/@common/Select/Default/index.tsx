@@ -40,7 +40,7 @@ const DefaultSelect = <
       error={!!error}
     >
       {selectList.map(({ id, label, value, selected }) => (
-        <MenuItem key={id} value={value} selected={selected}>
+        <MenuItem sx={{ py: 1.5 }} key={id} value={value} selected={selected}>
           {label}
         </MenuItem>
       ))}

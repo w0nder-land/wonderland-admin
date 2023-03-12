@@ -1,17 +1,16 @@
 import DefaultInput from '@common/Input/Default';
 import DefaultSelect from '@common/Select/Default';
 import AddIcon from '@mui/icons-material/Add';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import {
   Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   FormControl,
   IconButton,
   InputAdornment,
+  Menu,
+  MenuItem,
   Paper,
   Table,
   TableBody,
@@ -35,7 +34,7 @@ interface IUserSearchForm {
 }
 
 interface Column {
-  id: 'name' | 'code' | 'population' | 'size' | 'density';
+  id: 'name' | 'code' | 'population' | 'size' | 'density' | 'icon';
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -66,6 +65,12 @@ const columns: readonly Column[] = [
     align: 'right',
     format: (value: number) => value.toFixed(2),
   },
+  {
+    id: 'icon',
+    label: '',
+    minWidth: 100,
+    align: 'right',
+  },
 ];
 
 interface Data {
@@ -74,35 +79,8 @@ interface Data {
   population: number;
   size: number;
   density: number;
+  icon: React.ReactNode;
 }
-
-function createData(
-  name: string,
-  code: string,
-  population: number,
-  size: number
-): Data {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
-];
 
 const AdministratorManagement = () => {
   const { control, handleSubmit } = useForm<IUserSearchForm>({
@@ -111,7 +89,7 @@ const AdministratorManagement = () => {
       searchWord: '',
     },
   });
-
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const { mode } = useColorMode();
@@ -139,6 +117,53 @@ const AdministratorManagement = () => {
   const onSubmit = ({ searchType, searchWord }: IUserSearchForm) => {
     console.log(searchType, searchWord);
   };
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const createData = (
+    name: string,
+    code: string,
+    population: number,
+    size: number
+  ): Data => {
+    const density = population / size;
+    return {
+      name,
+      code,
+      population,
+      size,
+      density,
+      icon: (
+        <IconButton onClick={handleMenu}>
+          <MoreHorizIcon />
+        </IconButton>
+      ),
+    };
+  };
+
+  const rows = [
+    createData('India', 'IN', 1324171354, 3287263),
+    createData('China', 'CN', 1403500365, 9596961),
+    createData('Italy', 'IT', 60483973, 301340),
+    createData('United States', 'US', 327167434, 9833520),
+    createData('Canada', 'CA', 37602103, 9984670),
+    createData('Australia', 'AU', 25475400, 7692024),
+    createData('Germany', 'DE', 83019200, 357578),
+    createData('Ireland', 'IE', 4857000, 70273),
+    createData('Mexico', 'MX', 126577691, 1972550),
+    createData('Japan', 'JP', 126317000, 377973),
+    createData('France', 'FR', 67022000, 640679),
+    createData('United Kingdom', 'GB', 67545757, 242495),
+    createData('Russia', 'RU', 146793744, 17098246),
+    createData('Nigeria', 'NG', 200962417, 923768),
+    createData('Brazil', 'BR', 210147125, 8515767),
+  ];
 
   return (
     <>
@@ -177,6 +202,13 @@ const AdministratorManagement = () => {
             selectProps={{
               sx: {
                 py: '5px',
+              },
+              MenuProps: {
+                MenuListProps: {
+                  sx: {
+                    p: 0,
+                  },
+                },
               },
             }}
           />
@@ -269,6 +301,42 @@ const AdministratorManagement = () => {
                   );
                 })}
             </TableBody>
+
+            <Menu
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+              sx={{
+                top: '30px',
+              }}
+              MenuListProps={{
+                sx: {
+                  p: 0,
+                },
+              }}
+            >
+              <MenuItem
+                onClick={handleClose}
+                sx={{ px: 3, py: 1, fontWeight: 600, fontSize: '0.9rem' }}
+              >
+                수정
+              </MenuItem>
+              <MenuItem
+                onClick={handleClose}
+                sx={{ px: 3, py: 1, fontWeight: 600, fontSize: '0.9rem' }}
+              >
+                삭제
+              </MenuItem>
+            </Menu>
           </Table>
         </TableContainer>
         <TablePagination

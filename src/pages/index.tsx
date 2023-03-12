@@ -19,46 +19,6 @@ import type { NextPage } from 'next';
 //   };
 // };
 
-const MEMBER_DETAIL = gql`
-  query GetUser {
-    getUser(userId: "7") {
-      id
-      socialType
-      providerId
-      username
-      password
-      nickname
-      email
-      sex
-      birthday
-      profileImage
-      lastLogin
-      active
-    }
-  }
-`;
-
-const STAR_WARS_QUERY = gql`
-  query Query {
-    allFilms {
-      films {
-        title
-        director
-        releaseDate
-        speciesConnection {
-          species {
-            name
-            classification
-            homeworld {
-              name
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
 const GIT = gql`
   query {
     viewer {

@@ -37,12 +37,13 @@ const AddUserDialog = ({ open, handleClose }: IAddUserDialog) => {
       name: '',
       email: '',
       regDate: new Date(),
-      isValid: true,
+      // isValid: true,
     },
   });
 
   const onSubmit = (data: IAddUserForm) => {
     console.log(data);
+    handleClose();
   };
 
   const handleClosedDialog = () => {
@@ -60,6 +61,9 @@ const AddUserDialog = ({ open, handleClose }: IAddUserDialog) => {
           <DefaultInput
             name="id"
             control={control}
+            rules={{
+              required: true,
+            }}
             textFieldProps={{
               id: 'id',
               label: '아이디',
@@ -74,6 +78,9 @@ const AddUserDialog = ({ open, handleClose }: IAddUserDialog) => {
           <DefaultInput
             name="password"
             control={control}
+            rules={{
+              required: true,
+            }}
             textFieldProps={{
               id: 'password',
               type: 'password',
@@ -87,6 +94,9 @@ const AddUserDialog = ({ open, handleClose }: IAddUserDialog) => {
           <DefaultInput
             name="name"
             control={control}
+            rules={{
+              required: true,
+            }}
             textFieldProps={{
               id: 'name',
               margin: 'normal',
@@ -101,6 +111,9 @@ const AddUserDialog = ({ open, handleClose }: IAddUserDialog) => {
           <DefaultInput
             name="email"
             control={control}
+            rules={{
+              required: true,
+            }}
             textFieldProps={{
               id: 'email',
               margin: 'normal',
@@ -116,6 +129,9 @@ const AddUserDialog = ({ open, handleClose }: IAddUserDialog) => {
           <DefaultInput
             name="regDate"
             control={control}
+            rules={{
+              required: true,
+            }}
             textFieldProps={{
               id: 'regDate',
               margin: 'normal',
@@ -139,6 +155,7 @@ const AddUserDialog = ({ open, handleClose }: IAddUserDialog) => {
             sx={{
               width: '100%',
             }}
+            size="large"
           >
             취소
           </Button>
@@ -149,6 +166,7 @@ const AddUserDialog = ({ open, handleClose }: IAddUserDialog) => {
               width: '100%',
             }}
             disabled={!isValid}
+            size="large"
           >
             추가
           </Button>
