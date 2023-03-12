@@ -1,12 +1,14 @@
 import 'styles/globals.css';
 
 import { ApolloProvider } from '@apollo/client';
+import DarkMode from '@layout/DarkMode';
 import Sidebar from '@layout/Sidebar';
 import { CssBaseline } from '@mui/material';
 import { StyledEngineProvider } from '@mui/styled-engine-sc';
 import localFont from '@next/font/local';
 import { ColorModeContextProvider } from 'context/ColorModeContext';
-import { useApollo } from 'lib/apollo-client';
+import { client, useApollo } from 'lib/apollo-client';
+import { AuthProvider } from 'lib/auth';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 
@@ -16,20 +18,28 @@ export const font = localFont({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const apolloClient = useApollo(pageProps.initialApolloState);
+  // const apolloClient = useApollo(pageProps.initialApolloState);
   const { asPath } = useRouter();
 
   return (
-    <ApolloProvider client={apolloClient}>
+    <ApolloProvider client={client}>
+      {/* <AuthProvider> */}
       <StyledEngineProvider injectFirst>
         <ColorModeContextProvider>
           <CssBaseline />
-          {asPath !== '/login' && <Sidebar />}
-          <main className={font.className}>
-            <Component {...pageProps} />
-          </main>
+          {asPath === '/login' ? (
+            <main className={font.className}>
+              <Component {...pageProps} />
+            </main>
+          ) : (
+            <Sidebar>
+              <DarkMode />
+              <Component {...pageProps} />
+            </Sidebar>
+          )}
         </ColorModeContextProvider>
       </StyledEngineProvider>
+      {/* </AuthProvider> */}
     </ApolloProvider>
   );
 }

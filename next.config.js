@@ -1,4 +1,3 @@
-/** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
   swcMinify: true,
@@ -8,9 +7,11 @@ module.exports = {
   async rewrites() {
     return [
       {
-        source: '/graphql',
+        source: '/api/graphql',
         destination:
           'http://wonderland-env-admin.ap-northeast-2.elasticbeanstalk.com/graphql',
+        // 'https://api.github.com/graphql',
+        // 'https://swapi-graphql.netlify.app/.netlify/functions/index',
       },
     ];
   },

@@ -1,3 +1,4 @@
+import { gql, useMutation } from '@apollo/client';
 import DefaultInput from '@common/Input/Default';
 import PrimaryLogo from '@common/Logo/Primary';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -13,10 +14,18 @@ import {
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
-interface IILoginForm {
+export interface IILoginForm {
   email: string;
   password: string;
 }
+
+const LOGIN = gql`
+  mutation AdminLogin($email: String!, $password: String!) {
+    adminLogin(email: $email, password: $password) {
+      token
+    }
+  }
+`;
 
 const Login = () => {
   const { control, handleSubmit } = useForm<IILoginForm>({
@@ -25,9 +34,26 @@ const Login = () => {
       password: '',
     },
   });
+  // const { signIn, signOut } = useAuth();
+  const [login] = useMutation(LOGIN, {
+    onCompleted: () => {
+      console.log('success');
+    },
+  });
 
-  const onSubmit = (data: IILoginForm) => {
-    console.log(data);
+  // useMutation(LOGIN, {
+  //   variables: {
+  //     email,
+  //     password,
+  //   },
+  //   onCompleted: () => {
+  //     console.log('success');
+  //   },
+  // });
+
+  const onSubmit = ({ email, password }: IILoginForm) => {
+    // signIn({ email, password });
+    login({ variables: { email, password } });
   };
 
   return (

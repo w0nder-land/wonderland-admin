@@ -1,13 +1,23 @@
 import PrimaryLogo from '@common/Logo/Primary';
-import { DarkMode, LightMode } from '@mui/icons-material';
-import { IconButton, Typography } from '@mui/material';
+import { AccountCircle } from '@mui/icons-material';
+import { IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { useColorMode } from 'context/ColorModeContext';
 import Link from 'next/link';
+import React, { useState } from 'react';
 
 import * as Styled from './GNB.styled';
 
 const GNB = () => {
-  const { mode, toggleColorMode } = useColorMode();
+  const { mode } = useColorMode();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Styled.GNB mode={mode}>
@@ -22,13 +32,46 @@ const GNB = () => {
         </Link>
       </Typography>
 
-      <IconButton onClick={toggleColorMode} color="inherit">
-        {mode === 'dark' ? (
-          <LightMode style={{ color: 'black' }} />
-        ) : (
-          <DarkMode style={{ color: 'white' }} />
-        )}
-      </IconButton>
+      <div>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="menu-appbar"
+          aria-haspopup="true"
+          onClick={handleMenu}
+          color="inherit"
+          sx={{
+            p: 0,
+          }}
+        >
+          <AccountCircle
+            fontSize="medium"
+            sx={{
+              fontSize: '27px',
+            }}
+          />
+        </IconButton>
+        <Menu
+          id="menu-appbar"
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+          sx={{
+            top: '32px',
+          }}
+        >
+          <MenuItem onClick={handleClose}>로그아웃</MenuItem>
+        </Menu>
+      </div>
     </Styled.GNB>
   );
 };

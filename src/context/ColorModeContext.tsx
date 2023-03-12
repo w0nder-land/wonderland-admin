@@ -1,5 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material';
-import React, { useMemo, useState } from 'react';
+import useLocalStorage from 'hooks/useLocalStorage';
+import React, { useMemo } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from 'styles/theme';
 import { ModeType } from 'types/common';
@@ -15,25 +16,28 @@ interface IColorModeContextProvider {
 
 export const ColorModeContext = React.createContext<IColorModeContext>({
   toggleColorMode: () => {},
-  mode: 'light',
+  mode: 'dark',
 });
 
 export const ColorModeContextProvider = ({
   children,
 }: IColorModeContextProvider) => {
-  const [mode, setMode] = useState<ModeType>('light');
+  const [storedMode, setStoredMode] = useLocalStorage<ModeType>(
+    'theme',
+    'light'
+  );
 
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'dark' ? 'light' : 'dark'));
+        setStoredMode(storedMode === 'dark' ? 'light' : 'dark');
       },
-      mode,
+      mode: storedMode,
     }),
-    [mode]
+    [storedMode]
   );
 
-  const theme = createTheme(mode === 'dark' ? darkTheme : lightTheme);
+  const theme = createTheme(storedMode === 'dark' ? darkTheme : lightTheme);
 
   return (
     <ColorModeContext.Provider value={colorMode}>

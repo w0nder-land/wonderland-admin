@@ -19,24 +19,24 @@ import type { NextPage } from 'next';
 //   };
 // };
 
-// const MEMBER_DETAIL = gql`
-//   query GetUser {
-//     getUser(userId: "7") {
-//       id
-//       socialType
-//       providerId
-//       username
-//       password
-//       nickname
-//       email
-//       sex
-//       birthday
-//       profileImage
-//       lastLogin
-//       active
-//     }
-//   }
-// `;
+const MEMBER_DETAIL = gql`
+  query GetUser {
+    getUser(userId: "7") {
+      id
+      socialType
+      providerId
+      username
+      password
+      nickname
+      email
+      sex
+      birthday
+      profileImage
+      lastLogin
+      active
+    }
+  }
+`;
 
 const STAR_WARS_QUERY = gql`
   query Query {
@@ -59,8 +59,16 @@ const STAR_WARS_QUERY = gql`
   }
 `;
 
+const GIT = gql`
+  query {
+    viewer {
+      login
+    }
+  }
+`;
+
 const Home: NextPage = () => {
-  const { loading, data } = useQuery(STAR_WARS_QUERY);
+  const { loading, data } = useQuery(GIT);
 
   console.log(loading, 'data', data);
 

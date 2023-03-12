@@ -6,7 +6,7 @@ export const AppBar = styled(MuiAppBar)`
 `;
 
 export const Drawer = styled(MuiDrawer)`
-  margin-top: 72px;
+  margin-top: 68px;
 
   & .MuiDrawer-paper {
     position: relative;

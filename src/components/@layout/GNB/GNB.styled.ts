@@ -12,6 +12,7 @@ export const GNB = styled(AppBar)<IStyledGNB>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   padding: 16px 20px;
   background-color: ${({ theme }) => theme.palette.primary.main};
 `;

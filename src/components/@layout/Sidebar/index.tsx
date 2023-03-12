@@ -1,49 +1,47 @@
 import GNB from '@layout/GNB';
-import { Copyright } from '@mui/icons-material';
-import {
-  Box,
-  Container,
-  Divider,
-  Grid,
-  List,
-  Paper,
-  Toolbar,
-} from '@mui/material';
+import { Box, Divider, List as MuiList, Toolbar } from '@mui/material';
+import React from 'react';
 
-import { mainListItems, secondaryListItems } from './ListItem';
+import List from './List';
 import * as Styled from './Sidebar.styled';
 
-const Sidebar = () => {
+interface ISidebar {
+  children: React.ReactNode;
+}
+
+const Sidebar = ({ children }: ISidebar) => {
   return (
     <Box display="flex">
       <GNB />
       <Styled.Drawer variant="permanent">
-        <List
+        <MuiList
           sx={{ width: '350px', bgcolor: 'background.paper' }}
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
-          {mainListItems()}
+          <List />
           <Divider sx={{ my: 1 }} />
-          {secondaryListItems}
-        </List>
+          {/* {secondaryListItems} */}
+        </MuiList>
       </Styled.Drawer>
       <Box
         component="main"
         sx={{
-          backgroundColor: (theme) =>
-            theme.palette.mode === 'light'
-              ? theme.palette.grey[100]
-              : theme.palette.grey[900],
+          // backgroundColor: (theme) =>
+          //   theme.palette.mode === 'light'
+          //     ? theme.palette.grey[100]
+          //     : theme.palette.grey[900],
           flexGrow: 1,
           height: '100vh',
           overflow: 'auto',
         }}
       >
         <Toolbar />
+        <Box m={4}>{children}</Box>
+        {/* <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Grid container spacing={3}>
-            {/* Chart */}
+            
             <Grid item xs={12} md={8} lg={9}>
               <Paper
                 sx={{
@@ -56,7 +54,7 @@ const Sidebar = () => {
                 ddd
               </Paper>
             </Grid>
-            {/* Recent Deposits */}
+            
             <Grid item xs={12} md={4} lg={3}>
               <Paper
                 sx={{
@@ -69,7 +67,7 @@ const Sidebar = () => {
                 dddddd
               </Paper>
             </Grid>
-            {/* Recent Orders */}
+            
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                 dddd
@@ -77,7 +75,7 @@ const Sidebar = () => {
             </Grid>
           </Grid>
           <Copyright sx={{ pt: 4 }} />
-        </Container>
+        </Container> */}
       </Box>
     </Box>
   );
