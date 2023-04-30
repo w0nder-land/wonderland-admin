@@ -22,7 +22,12 @@ export interface IILoginForm {
 const LOGIN = gql`
   mutation AdminLogin($email: String!, $password: String!) {
     adminLogin(email: $email, password: $password) {
-      token
+      item {
+        token
+        refreshToken
+        tokenExpiredAt
+        refreshTokenExpiredAt
+      }
     }
   }
 `;
@@ -34,25 +39,14 @@ const Login = () => {
       password: '',
     },
   });
-  // const { signIn, signOut } = useAuth();
+
   const [login] = useMutation(LOGIN, {
-    onCompleted: () => {
-      console.log('success');
+    onCompleted: ({ adminLogin: { item } }) => {
+      console.log('success', item);
     },
   });
 
-  // useMutation(LOGIN, {
-  //   variables: {
-  //     email,
-  //     password,
-  //   },
-  //   onCompleted: () => {
-  //     console.log('success');
-  //   },
-  // });
-
   const onSubmit = ({ email, password }: IILoginForm) => {
-    // signIn({ email, password });
     login({ variables: { email, password } });
   };
 

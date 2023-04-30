@@ -102,7 +102,6 @@ const AddUserDialog = ({ open, handleClose }: IAddUserDialog) => {
               margin: 'normal',
               required: true,
               fullWidth: true,
-              autoFocus: true,
               autoComplete: 'name',
               label: '이름',
             }}
@@ -119,7 +118,6 @@ const AddUserDialog = ({ open, handleClose }: IAddUserDialog) => {
               margin: 'normal',
               required: true,
               fullWidth: true,
-              autoFocus: true,
               label: '이메일',
               autoComplete: 'email',
               type: 'email',

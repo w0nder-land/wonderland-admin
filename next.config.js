@@ -8,8 +8,7 @@ module.exports = {
     return [
       {
         source: '/api/graphql',
-        destination:
-          'http://wonderland-env-admin.ap-northeast-2.elasticbeanstalk.com/graphql',
+        destination: 'https://admin.w0nderland.co.kr/graphql',
         // 'https://api.github.com/graphql',
         // 'https://swapi-graphql.netlify.app/.netlify/functions/index',
       },

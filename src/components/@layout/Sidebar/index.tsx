@@ -27,17 +27,13 @@ const Sidebar = ({ children }: ISidebar) => {
       <Box
         component="main"
         sx={{
-          // backgroundColor: (theme) =>
-          //   theme.palette.mode === 'light'
-          //     ? theme.palette.grey[100]
-          //     : theme.palette.grey[900],
           flexGrow: 1,
           height: '100vh',
           overflow: 'auto',
         }}
       >
         <Toolbar />
-        <Box m={4} mr={11}>
+        <Box m={4} mr={12}>
           {children}
         </Box>
         {/* <Toolbar />
