@@ -11,6 +11,7 @@ import { client, useApollo } from 'lib/apollo-client';
 import { AuthProvider } from 'lib/auth';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
+import { CookiesProvider } from 'react-cookie';
 import { RecoilRoot } from 'recoil';
 
 export const font = localFont({
@@ -25,24 +26,26 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       {/* <AuthProvider> */}
-      <RecoilRoot>
-        <StyledEngineProvider injectFirst>
-          <ColorModeContextProvider>
-            <CssBaseline />
-            {asPath === '/login' ? (
-              <main className={font.className}>
-                <Component {...pageProps} />
-              </main>
-            ) : (
-              <Sidebar>
-                <DarkMode />
-                <Component {...pageProps} />
-              </Sidebar>
-            )}
-          </ColorModeContextProvider>
-        </StyledEngineProvider>
-        {/* </AuthProvider> */}
-      </RecoilRoot>
+      <CookiesProvider>
+        <RecoilRoot>
+          <StyledEngineProvider injectFirst>
+            <ColorModeContextProvider>
+              <CssBaseline />
+              {asPath === '/login' ? (
+                <main className={font.className}>
+                  <Component {...pageProps} />
+                </main>
+              ) : (
+                <Sidebar>
+                  <DarkMode />
+                  <Component {...pageProps} />
+                </Sidebar>
+              )}
+            </ColorModeContextProvider>
+          </StyledEngineProvider>
+          {/* </AuthProvider> */}
+        </RecoilRoot>
+      </CookiesProvider>
     </ApolloProvider>
   );
 }
