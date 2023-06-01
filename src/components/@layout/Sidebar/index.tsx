@@ -1,6 +1,12 @@
+import { gql, useMutation } from '@apollo/client';
 import GNB from '@layout/GNB';
 import { Box, Divider, List as MuiList, Toolbar } from '@mui/material';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { userState } from 'recoil/user';
+import { ISilentRefresh } from 'types/auth';
+import { getRefreshToken, setToken } from 'utils/token';
 
 import List from './List';
 import * as Styled from './Sidebar.styled';
@@ -9,7 +15,47 @@ interface ISidebar {
   children: React.ReactNode;
 }
 
+const SILENT_REFRESH = gql`
+  mutation AdminLoginRefreshToken($refreshToken: String!) {
+    adminLoginRefreshToken(refreshToken: $refreshToken) {
+      item {
+        token
+        refreshToken
+        tokenExpiredAt
+        refreshTokenExpiredAt
+      }
+    }
+  }
+`;
+
 const Sidebar = ({ children }: ISidebar) => {
+  const [user, setUser] = useRecoilState(userState);
+  const router = useRouter();
+
+  const [silentRefresh] = useMutation<ISilentRefresh>(SILENT_REFRESH, {
+    onCompleted: ({ adminLoginRefreshToken: { item } }) => {
+      setUser({ accessToken: item.token });
+      setToken('refreshToken', item.refreshToken);
+    },
+  });
+
+  useEffect(() => {
+    const refreshToken = getRefreshToken();
+    const { accessToken } = user;
+
+    if (!accessToken && !refreshToken) {
+      router.push('/login');
+    }
+
+    if (!accessToken && refreshToken) {
+      console.log('silent');
+      silentRefresh({ variables: { refreshToken } });
+      setTimeout(() => {
+        console.log('실행');
+      }, 1000 * 10);
+    }
+  }, []);
+
   return (
     <Box display="flex">
       <GNB />
@@ -36,44 +82,6 @@ const Sidebar = ({ children }: ISidebar) => {
         <Box m={4} mr={12}>
           {children}
         </Box>
-        {/* <Toolbar />
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Grid container spacing={3}>
-            
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: 240,
-                }}
-              >
-                ddd
-              </Paper>
-            </Grid>
-            
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: 240,
-                }}
-              >
-                dddddd
-              </Paper>
-            </Grid>
-            
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                dddd
-              </Paper>
-            </Grid>
-          </Grid>
-          <Copyright sx={{ pt: 4 }} />
-        </Container> */}
       </Box>
     </Box>
   );

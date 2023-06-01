@@ -3,13 +3,20 @@ import { AccountCircle } from '@mui/icons-material';
 import { IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { useColorMode } from 'context/ColorModeContext';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { userState } from 'recoil/user';
+import { lightTheme } from 'styles/theme';
+import { removeToken } from 'utils/token';
 
 import * as Styled from './GNB.styled';
 
 const GNB = () => {
+  const router = useRouter();
   const { mode } = useColorMode();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const setUser = useSetRecoilState(userState);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -19,8 +26,14 @@ const GNB = () => {
     setAnchorEl(null);
   };
 
+  const onLogout = () => {
+    removeToken('refreshToken');
+    setUser({ accessToken: null });
+    router.push('/login');
+  };
+
   return (
-    <Styled.GNB mode={mode}>
+    <Styled.GNB mode={mode} theme={lightTheme}>
       <Typography variant="h1" sx={{ lineHeight: 0 }}>
         <Link href="/" aria-label="원더랜드">
           <PrimaryLogo
@@ -69,7 +82,7 @@ const GNB = () => {
             top: '32px',
           }}
         >
-          <MenuItem onClick={handleClose}>로그아웃</MenuItem>
+          <MenuItem onClick={onLogout}>로그아웃</MenuItem>
         </Menu>
       </div>
     </Styled.GNB>

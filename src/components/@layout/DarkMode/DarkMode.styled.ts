@@ -1,5 +1,5 @@
+import styled from '@emotion/styled';
 import { Fab as MuiFab } from '@mui/material';
-import styled from 'styled-components';
 
 export const Fab = styled(MuiFab)`
   position: fixed;

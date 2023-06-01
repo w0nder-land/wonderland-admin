@@ -15,3 +15,7 @@ export interface ILoginTokenItem {
 export interface ILoginResponse {
   adminLogin: ILoginTokenItem;
 }
+
+export interface ISilentRefresh {
+  adminLoginRefreshToken: ILoginTokenItem;
+}

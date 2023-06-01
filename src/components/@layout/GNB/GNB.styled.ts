@@ -1,9 +1,10 @@
-import { AppBar } from '@mui/material';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
+import { AppBar, Theme } from '@mui/material';
 import { ModeType } from 'types/common';
 
 interface IStyledGNB {
   mode: ModeType;
+  theme: Theme;
 }
 
 export const GNB = styled(AppBar)<IStyledGNB>`

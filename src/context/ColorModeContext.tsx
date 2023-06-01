@@ -1,7 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material';
 import useLocalStorage from 'hooks/useLocalStorage';
 import React, { useMemo } from 'react';
-import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from 'styles/theme';
 import { ModeType } from 'types/common';
 
@@ -41,9 +40,7 @@ export const ColorModeContextProvider = ({
 
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <StyledThemeProvider theme={theme}>
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
-      </StyledThemeProvider>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </ColorModeContext.Provider>
   );
 };

@@ -13,11 +13,9 @@ import {
   Typography,
 } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
-import { userState } from 'recoil/user';
-import { ILoginResponse, ILoginToken } from 'types/auth';
+import { ILoginResponse } from 'types/auth';
+import { setToken } from 'utils/token';
 
 export interface IILoginForm {
   email: string;
@@ -38,8 +36,6 @@ const LOGIN = gql`
 `;
 
 const Login = () => {
-  const setUser = useSetRecoilState(userState);
-  const [cookies, setCookie] = useCookies(['refreshToken']);
   const router = useRouter();
 
   const { control, handleSubmit } = useForm<IILoginForm>({
@@ -51,15 +47,14 @@ const Login = () => {
 
   const [login] = useMutation<ILoginResponse>(LOGIN, {
     onCompleted: ({ adminLogin: { item } }) => {
-      setUser({ accessToken: item.token });
-      setCookie('refreshToken', item.refreshToken, {
-        secure: true,
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-      });
+      // setCookie('refreshToken', item.refreshToken, {
+      //   secure: true,
+      //   httpOnly: true,
+      //   maxAge: 1000 * 60 * 60 * 24 * 7,
+      // });
+      console.log(item);
+      setToken('refreshToken', item.refreshToken);
       router.push('/');
-      console.log('success', item);
-      console.log(cookies);
     },
   });
 
